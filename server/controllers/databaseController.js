@@ -120,7 +120,6 @@ function getPost(req, res) {
 			const comm = db.comments.data.filter(x => x.postId === parseInt(post));
 			const data = [posts, comm];
 			res.status(200).json(data);
-			console.log(data)
 			console.log(`[!] Alert: Posts and comments queried.`);
 		} else {
 			const data = [posts];
