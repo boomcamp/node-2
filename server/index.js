@@ -1,5 +1,10 @@
 const express = require('express');
 
+const users = require('./file/users.js');
+const profiles = require('./file/profiles.js');
+const posts = require('./file/posts.js');
+const comments = require('./file/comments.js');
+
 const db = {
   users: {
     id: 0,
@@ -28,64 +33,22 @@ app.listen(port, () => {
 	console.log(`Server listening on port: ${port}`);
 });
 
-app.post('/sign-up', (req, res) => {
-  const db = req.app.get('db')
-  const { email, password } = req.body;
-  const newUser = {id:db.users.id, password, email}
-
-  db.users.data.push(newUser);
-  db.users.id++;
-
-  db.profiles.data.push({ userId: newUser.id, thumbnail: null, about: ''});
-  db.profiles.id++;
-
-  res.status(201).json(newUser);
-});
+app.post('/sign-up', users.signUp);
 
 app.get('/debug', (req, res) => {
     res.status(200).json(req.app.get('db'))
 });
 
-app.patch('/profiles/:userId', (req, res) => {
-  const db = req.app.get('db');  
-  const {userId} = req.params;
-  const {email, password} = req.body;
-  const profile = db.profiles.data.findIndex(prof => prof.userid === parseInt(userId));
+app.patch('/profiles/:userId', profiles.updateProf);
 
-  if(profile){
-    db.user.data[userId] = {email, password}
-  }else{
-    res.status(500).send('Error')
-  }
+app.post('/posts', posts.createPost);
 
-});
+app.post('/comments', comments.createCom);
 
-app.post('/posts', (req, res) => {
-  const db = req.app.get('db');
-  const { userId, post } = req.body;
+app.get('/profile', profiles.getProf);
 
-  const newPost = {id: db.posts.id, userId, post};
+app.get('/user/:userId/posts', posts.userPosts)
 
-  db.posts.data.push(newPost);
-  db.posts.id++;
+app.get('/posts/:postId', posts.postComments)
 
-  res.status(201).json(newPost);
-})
-
-app.post('/comments', (req, res) => {
-  const db = req.app.get('db');
-  const {userId, postId, comment} = req.body;
-
-  const newComment = {id: db.comments.id, userId, postId, comment};
-
-  db.comments.data.push(newComment);
-  db.comments.id++;
-
-  res.status(200).json(newComment);
-})
-
-app.get('/profile', (req, res) => {
-  const db = req.app.get('db');
-
-})
 
