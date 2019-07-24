@@ -59,7 +59,7 @@ function fetchProfile(req, res) {
   if(req.query.id){
     const userIndex = db.users.data.findIndex(user => user.u_id === parseInt(req.query.id));
     const profileIndex = db.profiles.data.findIndex(profile => profile.p_id === parseInt(db.users.data[userIndex].u_id));
-    res.status(201).json(db.profiles.data[profileIndex])
+    res.status(200).json(db.profiles.data[profileIndex])
   }
   
 }
@@ -75,14 +75,14 @@ function fetchPost(req, res) {
     }
     return posts;
   })
-  res.status(201).json(posts)
+  res.status(200).json(posts)
 }
 
 function viewPost(req, res) {
   const db = req.app.get('db');
   const { postId } = req.params;
   let comments = [];
-    if(req.query.comments){
+    if(req.query.comments === ''){
       db.comments.data.map(comment => {
         if(comment.post_id === parseInt(postId)){
           comments.push(comment)
@@ -94,7 +94,7 @@ function viewPost(req, res) {
       const postIndex = db.posts.data.findIndex(post => post.post_id === parseInt(postId));
       comments.push(db.posts.data[postIndex])
     }
-    res.status(201).json(comments)
+    res.status(200).json(comments)
 }
 
 module.exports = {
