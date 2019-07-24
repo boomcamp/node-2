@@ -25,7 +25,6 @@ app.set('db', db);
 
 // MIDDLEWARE
 app.use(express.json())
-app.use(express.static(`${__dirname}/../build`));
 
 
 // endpoints
