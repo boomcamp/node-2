@@ -41,7 +41,8 @@ app.post('/sign-up', dc.createUser);
 app.patch('/profile/:user', dc.updateProfile);
 app.get('/profile', dc.getProfile)
 app.post('/posts/:user', dc.createPost);
-app.post('/user/:userId/posts', dc.getPost);
+app.get('/post/:post', dc.getPost);
+app.get('/user/:userId/posts', dc.getPosts);
 app.post('/comments', dc.createComment);
 //
 

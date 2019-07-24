@@ -97,11 +97,41 @@ function getProfile(req, res) {
 	console.log(`[+] Alert: User profile queried.`);
 }
 
+function getPosts(req, res) {
+	const db = req.app.get('db');
+	const { userId } = req.params;
+	const posts = db.posts.data.filter(p => p.userId === parseInt(userId));
+	if(posts.length != 0) {
+		res.status(200).json(posts);
+		console.log(`[!] Alert: User posts queried.`);
+	} else {
+		res.status(500).send(`No posts found!`);
+		console.log(`[!] Alert: No posts found.`);
+	}
+}
+
 function getPost(req, res) {
 	const db = req.app.get('db');
-	const { userId } = req.query;
-	console.log(userId);
-	res.status(200).send(userId);
+	const { post } = req.params;
+	const { comments } = req.query;
+	const posts = db.posts.data.filter(p => p.userId === parseInt(post));
+	if(posts.length != 0) {
+		if(comments) {
+			const comm = db.comments.data.filter(x => x.postId === parseInt(post));
+			const data = [posts, comm];
+			res.status(200).json(data);
+			console.log(data)
+			console.log(`[!] Alert: Posts and comments queried.`);
+		} else {
+			const data = [posts];
+			res.status(200).json(data);
+			console.log(`[!] Alert: Posts queried.`);
+		}
+		
+	} else {
+		res.status(500).send(`No post found!`);
+		console.log(`[!] Alert: No post found.`);
+	}
 }
 
 function debug(req, res) {
@@ -115,6 +145,7 @@ module.exports = {
 	createComment,
 	createPost,
 	getProfile,
+	getPosts,
 	getPost,
 	debug
 }
