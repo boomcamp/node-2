@@ -1,11 +1,11 @@
 const update = function(req,res){
 	const { userId } = req.params
-	const { email, password } = req.body
+	const { thumbnail, about } = req.body
 	const db = req.app.get('db')
 	const profile = db.profiles.data.find(prof => prof.userId === parseInt(userId))
 
 	if(profile) {
-		db.users.data[userId] = {id:parseInt( userId ), email, password }
+		db.profiles.data[userId] = {userId:parseInt( userId ), thumbnail, about }
 		res.status(201).json(db)
 	}
 	else {
