@@ -20,9 +20,23 @@ function createPost(req, res) {
     } else {
         res.status(500).send(`no data match `)
     }
-
-
 }
+
+function getPost(req, res){
+       
+  const db = req.app.get('db')
+  const {postId} = req.params
+  const post = db.posts.data.find(data => data.postId === parseInt(postId))
+  if(post){
+      const comments = db.comments.data.filter(data => data.postId === parseInt(postId))
+      const posts= ({post,comments})
+      res.status(200).json(posts)
+  } else{
+      res.status(500).send(`no data match `)
+      
+  }
+}
+
   module.exports = {
-    createPost,userPost
+    createPost,userPost,getPost
   }

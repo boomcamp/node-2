@@ -27,9 +27,8 @@ const app = express();
 app.set('db',db);
 app.use(express.json());
 //sign-up
-app.post('/sign-up', sign_up.signUp,(req,res)=>{
-    res.json({message:'You have log in'});
-})
+app.post('/sign-up', sign_up.signUp);
+ 
 
 //Profile
  app.get('/profile/',(req, res) => {
@@ -43,6 +42,7 @@ app.post('/sign-up', sign_up.signUp,(req,res)=>{
  //Post
  app.post('/userPost', userPost.createPost);
  app.get('/userPost/:userId/posts', userPost.userPost)
+ app.get('/userPost/:postId', userPost.getPost)
 
  app.post('/comments', comment.createComment);
 

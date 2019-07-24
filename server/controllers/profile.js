@@ -20,10 +20,11 @@ function profiles(req, res){
         const { email } = req.query
         const item = db.users.data.find(data => data.email === req.query.email)
         if(item){
-            const profile = db.profiles.data.find(data => data.userId === parseInt(item.id))
-            res.status(200).json(profile)
+            const profile = db.profiles.data.filter(data => data.userId === parseInt(item.id))
+            const info = ({item,profile})
+            res.status(200).json(info)
         } else {
-            res.status(500).send(`no data match in item`)
+            res.status(500).send(`no data match`)
         }
         
     } else {
