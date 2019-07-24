@@ -38,7 +38,7 @@ app.post('/posts', user.posts);
 
 app.post('/comments', user.comments);
 
-app.get('/profile/:userId', user.viewProfile);
+app.get('/profile', user.viewProfile);
 
 app.get('/user/:userId/posts', user.viewMyProfile);
 

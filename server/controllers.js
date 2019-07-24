@@ -79,9 +79,9 @@ function comments(req, res){
 function viewProfile(req, res){
     const db = req.app.get('db')
 
-    if(req.params.userId){
+    if(req.query.userId){
 
-        const userId = db.users.data.find(user => user.id === parseInt(req.params.userId))
+        const userId = db.users.data.find(user => user.id === parseInt(req.query.userId))
 
         if(userId){
 
@@ -92,20 +92,18 @@ function viewProfile(req, res){
         
     }
 
-else{
+    else if(req.query.email){
 
-    const userId = db.users.data.find(user => user.email === req.query.email)
+        const userId = db.users.data.find(user => user.email === req.query.email)
 
-    if(userId){
+        if(userId){
 
-        const findProfile = db.profiles.data.find(profile => profile.userId === userId.id)
+            const findProfile = db.profiles.data.find(profile => profile.userId === userId.id)
 
-        res.status(200).send(findProfile)
+            res.status(200).send(findProfile)
 
+        }
     }
-}
-    
-    
 
     res.status(500).send('Profile does not exist!');
 }
