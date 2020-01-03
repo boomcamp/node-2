@@ -1,3 +1,7 @@
+const express = require('express');
+
+const user = require('./controllers/user')
+
 const db = {
     users: {
         id: 0,
@@ -17,11 +21,15 @@ const db = {
     },
 };
 
-const express = require('express');
-
 const app = express();
 
 app.set('db', db);
+
+app.post('/sign-up', user.signUp);
+
+app.get('/debug', (req, res) => {
+    res.status(200).json(req.app.get('db'))
+});
 
 const port = 3000;
 
