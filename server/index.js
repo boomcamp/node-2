@@ -29,20 +29,28 @@ const app = express();
 app.set('db', db);
 app.use(express.json());
 
-// new user
+// Step 3 & 4: Creating Users, Creating User Profiles
 app.post('/sign-up', user.signUp);
 
-// profile
-app.patch('/profile', profile.userProfile);
-app.get('/profile/:userId', profile.getProfile);
-
-// posts
+// Step 5: Creating Posts
 app.post('/posts', posts.newPost);
-app.get('/posts/:userId/posts', posts.getAllPost)
-app.get('/posts/:postId', posts.getPosts)
 
-// comments
+// Step 6: Adding Comment to Posts
 app.post('/comments', comment.newComment);
+
+// Step 7: Fetching our Profiles
+app.get('/profile', profile.getProfile);
+// Step 7: Fetching our Profiles by param(ID) and query(email)
+app.patch('/profile/:userId', profile.updateProfile);
+
+// Step 8: Fetching all posts
+app.get('/posts/:userId/posts', posts.getAllPost);
+
+//Step 9: Viewing Post
+app.get('/posts/:postId', posts.getPosts);
+
+
+
 
 app.get('/debug', (req, res) => {
     res.status(200).json(req.app.get('db'))
