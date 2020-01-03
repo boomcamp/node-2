@@ -25,6 +25,7 @@ app.set("db", db);
 const PORT = 3002;
 
 app.post("/sign-up", signUp);
+
 app.get("/debug", (req, res) => {
 	res.status(200).json(req.app.get("db"));
 });
