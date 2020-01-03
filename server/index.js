@@ -43,6 +43,8 @@ app.post('/comments', comments.createCom);
 
 app.get('/user/:userId/posts', posts.userPosts)
 
+app.get('/posts/:postId', posts.postComments)
+
 const port = 3000;
 
 app.listen(port, () => {

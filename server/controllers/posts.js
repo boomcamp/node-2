@@ -11,6 +11,20 @@ module.exports = {
 	  res.status(201).json(newPost);
     },
 
+    postComments: function(req, res){
+      const db = req.app.get('db');
+	  const { comments } = req.query;
+	  const { postId } = req.params;
+
+	  const posts = db.posts.data.find(post => post.id === parseInt(postId))
+	  if(comments) {
+	    const pCom = db.comments.data.filter(com => com.postId === parseInt(postId))
+	    posts.comments = pCom;
+	    }
+
+	    res.status(200).json(posts)
+    },
+
     userPosts: function(req, res){
       const db = req.app.get('db');
 	  const { userId } = req.params;
