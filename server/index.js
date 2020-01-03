@@ -38,7 +38,7 @@ app.get('/profile/:userId', profile.getProfile);
 
 // posts
 app.post('/posts', posts.newPost);
-app.get('/posts/:userId/posts', getAllPost)
+app.get('/posts/:userId/posts', posts.getAllPost)
 app.get('/posts/:postId', posts.getPosts)
 
 // comments
