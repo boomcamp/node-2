@@ -19,6 +19,7 @@ const db = {
 	}
 };
 const app = express();
+app.use(express.json());
 
 app.set("db", db);
 const PORT = 3002;
