@@ -1,13 +1,13 @@
-function comments(req, res) {
+function newComment(req, res) {
     const db = req.app.get('db');
 
-    const { userID, postId, comment } = req.body;
-    const newComment = { idd: db.newComment.id, userId, postId, comment };
+    const { userId, postId, comment } = req.body;
+    const newCom = { id: db.comments.id, userId, postId, comment };
 
-    db.comments.data.push(newComment);
+    db.comments.data.push(newCom);
     db.comments.id++;
 
-    res.status(201).json(newComment);
+    res.status(201).json(newCom);
 }
 
-module.exports = { comments }
+module.exports = { newComment }

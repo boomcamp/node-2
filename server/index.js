@@ -27,12 +27,22 @@ const db = {
 const app = express();
 
 app.set('db', db);
+app.use(express.json());
 
+// new user
 app.post('/sign-up', user.signUp);
+
+// profile
 app.patch('/profile', profile.userProfile);
-app.post('/posts', posts.post);
-app.post('/comments', comment.comment);
-app.get('/profile?email');
+app.get('/profile/:userId', profile.getProfile);
+
+// posts
+app.post('/posts', posts.newPost);
+app.get('/posts/:userId/posts', getAllPost)
+app.get('/posts/:postId', posts.getPosts)
+
+// comments
+app.post('/comments', comment.newComment);
 
 app.get('/debug', (req, res) => {
     res.status(200).json(req.app.get('db'))
