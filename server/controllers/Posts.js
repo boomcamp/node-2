@@ -28,11 +28,13 @@ module.exports = {
         const {postId} = req.params
 
         const posts = db.posts.data.find(x => x.id === parseInt(postId));
-        if (comments){
+        if (comments == 'true'){
             const postComments = db.comments.data.filter(x => x.postId === parseInt(postId))
             
             posts.comments = postComments
         }
+        else if(comments == 'false' || !comments)
+            posts.comments = null
         
         res.status(200).json(posts);
     }
