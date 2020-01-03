@@ -24,7 +24,7 @@ module.exports = {
     );
     if (comments) {
       const postComments = db.comments.data.filter(
-        c => c.postId === parseInt(req.params.postId)
+        c => c.postId === req.params.postId
       );
       postRes.comments = postComments;
     }
