@@ -6,7 +6,7 @@ const fc = require("./functionController");
 app.use(express.json());
 
 app.listen(PORT, () => {
-	console.log(`Running on port ${PORT}`);
+	console.log(`Server listening on port ${PORT}`);
 });
 
 const db = {
