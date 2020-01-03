@@ -4,10 +4,12 @@ const signUp = (req, res) => {
 	const { email, password } = req.body;
 	const db = req.app.get("db");
 
-	data = db.users.data;
-	data.push([id, email, password]);
+	db.users.data.push([id, email, password]);
+	db.users = { ...db.users, id };
 
-	db.users = { ...db.users, id, data };
+	db.profiles.data.push([id, email, password]);
+	db.profiles = { ...db.profiles, id };
+
 	id++;
 	res.status(200).send(db);
 };
