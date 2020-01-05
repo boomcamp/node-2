@@ -1,5 +1,5 @@
-function findProfileByUserId(db, id) {
-  const index = db.profiles.data.findIndex(p => p.userId === parseInt(id));
+function findProfileByUserID(db, id) {
+  const index = db.profiles.data.findIndex(p => p.userID === Number(id));
   return {
     index,
     data: db.profiles.data[index],
@@ -7,38 +7,39 @@ function findProfileByUserId(db, id) {
 }
 
 function findProfileByUserEmail(db, email) {
-  const user = db.users.data.find(u => u.email === email)
-  return db.profiles.data.find(p => p.userId === user.id)
+  const user = db.users.data.find(user => user.email === email)
+  return db.profiles.data.find(profile => profile.userID === user.id)
 }
 
 module.exports = {
   update: (req, res) => {
     const db = req.app.get('db');
-    const { thumbnail, about } = req.body;
+    const { name, age, bio } = req.body;
 
-    const profile = findProfileByUserId(db, req.params.userId);
+    const profile = findProfileByUserID(db, req.params.userID);
 
     const updatedProfile = {
       ...profile.data,
-      ...(thumbnail && { thumbnail }),
-      ...(about && { about }),
+      ...(name && { name }),    
+      ...(age && { age }),
+      ...(bio && { bio })
     };
 
     db.profiles.data.splice(profile.index, 1, updatedProfile);
 
-    res.status(200).json(updatedProfile);
+    res.status(200).send(db);
   },
-  get: (req, res) => {
+  fetchProfile: (req, res) => {
     const db = req.app.get('db')
-    const { email, userId }= req.query
-  
-    let result;
+    const { email, userID }= req.query
+
+    let fetchedData;
     if (email) {
-      result = findProfileByUserEmail(db, email)
-    } else if (userId) {
-      result = db.profiles.data.find(p => p.userId === parseInt(userId))
+      fetchedData = findProfileByUserEmail(db, email)
+    } else if (userID) {
+      fetchedData = db.profiles.data.find(profile => profile.userID === Number(userID))
     }
-  
-    res.status(200).json(result)
+
+    res.status(201).send(fetchedData)
   }
 }
