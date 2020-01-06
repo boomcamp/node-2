@@ -3,7 +3,7 @@ create = (req, res) => {
 
   const { userId, content } = req.body;
 
-  const newPost = { id: db.posts.id, userId, content };
+  const newPost = Object.assign({}, { id: db.posts.id, userId, content });
 
   db.posts.data.push(newPost);
   db.posts.id++;

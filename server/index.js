@@ -30,7 +30,7 @@ app.set("db", db);
 
 app.use(express.json());
 
-const PORT = 3007;
+const PORT = process.env.PORT || 3007;
 // Users
 app.post("/sign-up", user.signUp);
 

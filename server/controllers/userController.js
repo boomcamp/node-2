@@ -2,7 +2,7 @@ signUp = (req, res) => {
   const db = req.app.get("db");
 
   const { email, password } = req.body;
-  const newUser = { id: db.users.id, password, email };
+  const newUser = Object.assign({}, { id: db.users.id, password, email });
 
   db.users.data.push(newUser);
   db.users.id++;
