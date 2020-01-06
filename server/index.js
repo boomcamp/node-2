@@ -1,13 +1,13 @@
 const express = require("express");
-const PORT = 3000;
-const app = express();
 
-const fc = require("./functionController");
-app.use(express.json());
+//controllers
 
-app.listen(PORT, () => {
-	console.log(`Server listening on port ${PORT}`);
-});
+const user = require("./controllers/user");
+const profile = require("./controllers/profiles");
+const post = require("./controllers/posts");
+const comment = require("./controllers/comments");
+
+//datastore
 
 const db = {
 	users: {
@@ -28,13 +28,43 @@ const db = {
 	}
 };
 
-app.set("db", db);
+const app = express();
 
-app.get("/debug", fc.debug);
-app.post("/sign-up", fc.signup);
-app.patch("/profile/:usersId", fc.profile);
-app.post("/posts", fc.post);
-app.post("/comments", fc.comment);
-app.get("/fetchProfile/", fc.fetchProfile);
-app.get("/user/:usersId/posts", fc.fetchPost);
-app.get("/posts/:postId", fc.viewPost);
+//middleware
+
+app.set("db", db);
+app.use(express.json());
+
+//debug
+
+app.get("/debug", (req, res) => {
+	res.status(200).json(req.app.get("db"));
+});
+
+//users
+
+app.post("/sign-in", user.signIn);
+app.post("/sign-up", user.signUp);
+
+//profiles
+
+app.get("/profile", profile.fetch);
+app.patch("/profile/:userId", profile.update);
+
+//posts
+
+app.post("/posts", post.createPost);
+app.get("/user/:userId/posts", post.postPerUser);
+app.get("/posts/:postId", post.fetchAPost);
+
+//comments
+
+app.post("/comment", comment.createComment);
+
+//port
+
+const PORT = 3000;
+
+app.listen(PORT, () => {
+	console.log(`Server listening on port ${PORT}`);
+});
