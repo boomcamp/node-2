@@ -12,7 +12,9 @@ module.exports = {
   },
   postPerUser: (req, res) => {
     const db = req.app.get("db");
-    const posts = db.posts.data.filter(p => p.userId === req.params.userId);
+    const posts = db.posts.data.filter(
+      p => p.userId === parseInt(req.params.userId)
+    );
     res.status(200).json(posts);
   },
   fetchAPost: (req, res) => {
@@ -24,7 +26,7 @@ module.exports = {
     );
     if (comments) {
       const postComments = db.comments.data.filter(
-        c => c.postId === req.params.postId
+        c => c.postId === parseInt(req.params.postId)
       );
       postRes.comments = postComments;
     }
