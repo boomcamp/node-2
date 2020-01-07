@@ -2,10 +2,10 @@
 
 In this project you'll build an API that with the following entities
 
-- Users
-- User Profiles
-- Posts
-- Comments
+-  Users
+-  User Profiles
+-  Posts
+-  Comments
 
 The instructions in this readme are going to inform you what endpoints are going
 to be necessary to power the desired functionality. It will be your job to then
@@ -15,28 +15,29 @@ Below are the 4 entities your API will need to interact with.
 
 ### Users
 
-- id
-- Email
-- Password
+-  id
+-  Email
+-  Password
 
 ### Profiles
 
-- userId
-- thumbnail - img url
-- about - small summary about user
+-  userId
+-  thumbnail - img url
+-  about - small summary about user
 
 ### Posts
 
-- userId
-- content
+-  userId
+-  content
 
 ### Comments
 
-- userId
-- postId
-- comment
+-  userId
+-  postId
+-  comment
 
 ## Before You Start
+
 1. Fork this repository
 2. Clone your fork to your local machine.
 
@@ -45,37 +46,37 @@ Below are the 4 entities your API will need to interact with.
 This step is just typical project setup, installing librarys, adding boilerplate
 code etc...
 
-1.  Use `npm` to initialize a `package.json` file so we can track our project's
-    dependencies
+1. Use `npm` to initialize a `package.json` file so we can track our project's
+   dependencies
 
-        npm init -y
+       npm init -y
 
-2.  Let's install the necessary npm packages for this project. We'll use
-    `express` as we have in previous projects.
+2. Let's install the necessary npm packages for this project. We'll use
+   `express` as we have in previous projects.
 
-        npm install --save express
+       npm install --save express
 
-3.  Let's create a `server` directory at the root of this project, and add an
-    `index.js`
+3. Let's create a `server` directory at the root of this project, and add an
+   `index.js`
 
-        mkdir server
+       mkdir server
 
-        # also create an index.js file in the server directory
+       # also create an index.js file in the server directory
 
-        touch server/index.js
+       touch server/index.js
 
-4.  Now add the necessary code to get a new `express` server up and running.
-    Refer to the documentation or previous projects if you don't recall how to
-    accomplish that.
+4. Now add the necessary code to get a new `express` server up and running.
+   Refer to the documentation or previous projects if you don't recall how to
+   accomplish that.
 
-5.  Now run the server to make sure things are working as expected. If you
-    encounter issues start debugging.
+5. Now run the server to make sure things are working as expected. If you
+   encounter issues start debugging.
 
-        node server/index.js
+       node server/index.js
 
-        # or if you have nodemon installed
+       # or if you have nodemon installed
 
-        nodemon server/index.js
+       nodemon server/index.js
 
 ## Step 2 - Persist Data
 
@@ -83,79 +84,79 @@ We need a way to persist data for our API, we haven't gotten to the point where
 we're going to use a database so we're just going to use a plain JavaScript
 object as our datastore.
 
-1.  Above where you defined your express app create an object called `db`. This
-    object should have keys corresponding to the entities that were defined at
-    the beginning of the README.
+1. Above where you defined your express app create an object called `db`. This
+   object should have keys corresponding to the entities that were defined at
+   the beginning of the README.
 
-        const db = {
-          users: {
-            id: 0,
-            data: [],
-          },
-          profiles: {
-            id: 0,
-            data: [],
-          },
-          posts: {
-            id: 0,
-            data: [],
-          },
-          comments: {
-            id: 0,
-            data: [],
-          },
-        };
+       const db = {
+         users: {
+           id: 0,
+           data: [],
+         },
+         profiles: {
+           id: 0,
+           data: [],
+         },
+         posts: {
+           id: 0,
+           data: [],
+         },
+         comments: {
+           id: 0,
+           data: [],
+         },
+       };
 
-    We'll use and manipulate this object to persist data with our API. Obviously
-    this would not be a good idea for a real production application.
+   We'll use and manipulate this object to persist data with our API. Obviously
+   this would not be a good idea for a real production application.
 
-2.  To give ourselves access to this object throughout the applications we can
-    use some functionality provided by `express`. Below where you first
-    initialize the `app` in `index.js`
+2. To give ourselves access to this object throughout the applications we can
+   use some functionality provided by `express`. Below where you first
+   initialize the `app` in `index.js`
 
-        const app = express();
+       const app = express();
 
-        app.set('db', db);
+       app.set('db', db);
 
-    This will allow us to access the db object throughout our application,
-    you'll see how to utilize it in future steps.
+   This will allow us to access the db object throughout our application,
+   you'll see how to utilize it in future steps.
 
 ## Step 3 - Creating Users
 
 Our application is not going to be very sophisticated, our sign-up and sign-in
 flow is going to be very simple.
 
-1.  We're going to create a `/sign-up` endpoint. It's going to be a `POST`
-    request that takes in an `email` address and a `password`. When we recieve
-    this data we're going to store it in our `db` object.
+1. We're going to create a `/sign-up` endpoint. It's going to be a `POST`
+   request that takes in an `email` address and a `password`. When we recieve
+   this data we're going to store it in our `db` object.
 
-    Remember how we made it so we could access our `db` object throughout the
-    application. Here's how you'd do that in a request handler.
+   Remember how we made it so we could access our `db` object throughout the
+   application. Here's how you'd do that in a request handler.
 
-         function(req, res) {
-            const db = req.app.get('db')
-         }
+        function(req, res) {
+           const db = req.app.get('db')
+        }
 
-    > Hint: Remember to make the datastore operate correctly when adding new
-    > users we're going to have to increment the `id` value on every new
-    > creation. This is so we get a unique id for every new user. You'll have to
-    > do this in any request handler that creates new entities.
+   > Hint: Remember to make the datastore operate correctly when adding new
+   > users we're going to have to increment the `id` value on every new
+   > creation. This is so we get a unique id for every new user. You'll have to
+   > do this in any request handler that creates new entities.
 
-    You don't have to, but you should consider implementing your request
-    handlers in their own modules. Go on now, setup your endpoint :)
+   You don't have to, but you should consider implementing your request
+   handlers in their own modules. Go on now, setup your endpoint :)
 
-2.  Now that you have that endpoint created, you better test it. But we have a
-    bit of a problem, there's no way to inspect the current state of the `db`
-    object. Let's create a `debug` endpoint that just dumps the current state of
-    the `db`. Add the following code to your app so you can easily inspect the
-    updates to the `db`.
+2. Now that you have that endpoint created, you better test it. But we have a
+   bit of a problem, there's no way to inspect the current state of the `db`
+   object. Let's create a `debug` endpoint that just dumps the current state of
+   the `db`. Add the following code to your app so you can easily inspect the
+   updates to the `db`.
 
-          app.get('/debug', (req, res) => {
-            res.status(200).json(req.app.get('db'))
-          })
+         app.get('/debug', (req, res) => {
+           res.status(200).json(req.app.get('db'))
+         })
 
-    Now you can `sign-up` and then check that the state of the `db` is as you
-    expect.
+   Now you can `sign-up` and then check that the state of the `db` is as you
+   expect.
 
 ## Step 4 - Creating User Profiles
 

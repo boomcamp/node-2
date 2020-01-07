@@ -27,7 +27,7 @@ const app = express();
 app.use(express.json());
 
 app.set("db", db);
-const PORT = 3001;
+const PORT = 3002;
 
 //signup
 app.post("/sign-up", signUp);
