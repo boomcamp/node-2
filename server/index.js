@@ -41,7 +41,7 @@ app.post('/comments', comment.newComment);
 // Step 7: Fetching our Profiles
 app.get('/profile', profile.getProfile);
 // Step 7: Fetching our Profiles by param(ID) and query(email)
-app.patch('/profile/:userId', profile.updateProfile);
+app.get('/profile/:userId', profile.updateProfile);
 
 // Step 8: Fetching all posts
 app.get('/posts/:userId/posts', posts.getAllPost);
@@ -56,7 +56,7 @@ app.get('/debug', (req, res) => {
     res.status(200).json(req.app.get('db'))
 });
 
-const port = 3000;
+const port = 3002;
 
 app.listen(port, () => {
     console.log(`Listening on port ${port}`)
